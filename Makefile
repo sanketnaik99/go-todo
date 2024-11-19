@@ -6,7 +6,7 @@ templ-install:
 	@if ! command -v templ > /dev/null; then \
 		read -p "Go's 'templ' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
 		if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
-			go install github.com/a-h/templ/cmd/templ@latest; \
+			go install github.com/a-h/templ/app/templ@latest; \
 			if [ ! -x "$$(command -v templ)" ]; then \
 				echo "templ installation failed. Exiting..."; \
 				exit 1; \
@@ -24,12 +24,12 @@ tailwind:
 build: tailwind templ-install
 	@echo "Building..."
 	@templ generate
-	@./tailwindcss -i cmd/web/assets/css/input.css -o cmd/web/assets/css/output.css
-	@go build -o main cmd/api/main.go
+	@./tailwindcss -i app/web/assets/css/input.css -o app/web/assets/css/output.css
+	@go build -o main app/main.go
 
 # Run the application
 run:
-	@go run cmd/api/main.go
+	@go run app/main.go
 # Create DB container
 docker-run:
 	@if docker compose up --build 2>/dev/null; then \

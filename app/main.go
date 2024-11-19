@@ -3,13 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"go-todo/internal/server"
 	"log"
 	"net/http"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"go-todo/internal/server"
 )
 
 func gracefulShutdown(apiServer *http.Server, done chan bool) {

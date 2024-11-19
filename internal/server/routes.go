@@ -3,12 +3,10 @@ package server
 import (
 	"net/http"
 
+	"go-todo/app/web"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-
-	"github.com/a-h/templ"
-	"go-todo/cmd/web"
-	"io/fs"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
@@ -21,31 +19,9 @@ func (s *Server) RegisterRoutes() http.Handler {
 		AllowCredentials: true, // Enable cookies/auth
 	}))
 
-	r.GET("/", s.HelloWorldHandler)
+	
+	web.WebGroup(r)
 
-	r.GET("/health", s.healthHandler)
-
-	staticFiles, _ := fs.Sub(web.Files, "assets")
-	r.StaticFS("/assets", http.FS(staticFiles))
-
-	r.GET("/web", func(c *gin.Context) {
-		templ.Handler(web.HelloForm()).ServeHTTP(c.Writer, c.Request)
-	})
-
-	r.POST("/hello", func(c *gin.Context) {
-		web.HelloWebHandler(c.Writer, c.Request)
-	})
 
 	return r
-}
-
-func (s *Server) HelloWorldHandler(c *gin.Context) {
-	resp := make(map[string]string)
-	resp["message"] = "Hello World"
-
-	c.JSON(http.StatusOK, resp)
-}
-
-func (s *Server) healthHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, s.db.Health())
 }
