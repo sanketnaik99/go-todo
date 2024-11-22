@@ -16,7 +16,7 @@ func WebGroup(router *gin.Engine) * gin.RouterGroup {
 		webRouter.StaticFS("/assets", http.FS(staticFiles))
 
 		webRouter.GET("/", func(c *gin.Context) {
-			templ.Handler(HelloForm()).ServeHTTP(c.Writer, c.Request)
+			templ.Handler(TodoList()).ServeHTTP(c.Writer, c.Request)
 		})
 	}
 

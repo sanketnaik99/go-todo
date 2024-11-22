@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 
+	"go-todo/app/api"
 	"go-todo/app/web"
 
 	"github.com/gin-contrib/cors"
@@ -21,7 +22,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	
 	web.WebGroup(r)
-
+	api.ApiGroup(r)
 
 	return r
 }
